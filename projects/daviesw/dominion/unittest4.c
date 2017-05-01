@@ -6,9 +6,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-int testUpdateCoins() {
+int testFullDeckCount() {
 
     struct gameState *state = malloc(sizeof(struct gameState));
+    //struct gameState *unchanged = malloc(sizeof(struct gameState));
     int numPlayers = 2;
     int king[10] = {adventurer, embargo, village, minion, mine, cutpurse, sea_hag, tribute, smithy, council_room};
     int seed = 1000;
@@ -18,6 +19,7 @@ int testUpdateCoins() {
     int expected = 0;
     
     initializeGame(numPlayers, king, seed, state);
+    
     
     printf("TEST OF CARD COUNT OF CARD FOUNT IN HAND AND DECK ONLY\n");
     count = fullDeckCount(0, estate, state);
@@ -33,6 +35,7 @@ int testUpdateCoins() {
         }
     }
 
+    //add cards to player 2's places, to be used later
     state->hand[1][0] = duchy;
     state->hand[1][1] = duchy;
     state->hand[1][2] = duchy;
@@ -191,6 +194,6 @@ int testUpdateCoins() {
 
 int main()
 {
-    testUpdateCoins();
+    testFullDeckCount();
     return 0;
 }

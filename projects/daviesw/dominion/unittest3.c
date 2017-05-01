@@ -10,6 +10,7 @@ int testIsGameOver() {
 
     int i, j, k;
     struct gameState *testOne = malloc(sizeof(struct gameState));
+    struct gameState *unchanged = malloc(sizeof(struct gameState));
     int numPlayers = 2;
     int king[10] = {adventurer, embargo, village, minion, mine, cutpurse, sea_hag, tribute, smithy, council_room};
     int seed = 1000;
@@ -20,6 +21,7 @@ int testIsGameOver() {
     printf("\n\nTESTS FOR isGameOver() FUNCTION BEGIN HERE\n\n");
 
     initializeGame(numPlayers, king, seed, testOne);
+    memcpy(unchanged, testOne, sizeof(struct gameState));
 
     int result = isGameOver(testOne);
 
@@ -29,6 +31,14 @@ int testIsGameOver() {
     }
     else {
         printf("TEST OF IN-PROGRESS GAME FAILED\n");
+        testPassed = 0;
+    }
+
+    if (memcmp(testOne, unchanged, sizeof(struct gameState)) == 0) {
+        printf("GAMESTATE NOT ALTERED AFTER LAST USE TEST: PASSED\n");
+    }
+    else {
+        printf("GAMESTATE NOT ALTERED AFTER LAST USE TEST: FAILED\n");
         testPassed = 0;
     }
 
@@ -47,6 +57,15 @@ int testIsGameOver() {
     }
     
     testOne->supplyCount[province] = oldProvince;
+
+    if (memcmp(testOne, unchanged, sizeof(struct gameState)) == 0) {
+        printf("GAMESTATE NOT ALTERED AFTER LAST USE TEST: PASSED\n");
+    }
+    else {
+        printf("GAMESTATE NOT ALTERED AFTER LAST USE TEST: FAILED\n");
+        testPassed = 0;
+    }
+    
     printf("TEST THAT GAME ENDS WHEN ANY THREE OF SUPPLY PILE ARE EMPTY\n");
     
     for(i = 0; i < 25; i++) {
@@ -79,6 +98,14 @@ int testIsGameOver() {
 
     printf("TEST OF GAME OVER DUE TO THREE EMPTY SUPPLY PILES PASSED FOR %d combination(s) out of 2300 possible\n", passCount);
 
+    if (memcmp(testOne, unchanged, sizeof(struct gameState)) == 0) {
+        printf("GAMESTATE NOT ALTERED AFTER LAST USE TEST: PASSED\n");
+    }
+    else {
+        printf("GAMESTATE NOT ALTERED AFTER LAST USE TEST: FAILED\n");
+        testPassed = 0;
+    }
+    
     printf("\n\nFINAL RESULT FOR TEST OF isGameOver()\n\n");
 
     if (testPassed == 1) {

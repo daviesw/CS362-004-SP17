@@ -226,6 +226,15 @@ int testGetCost() {
         testPassed = 0;
     }
 
+    if (getCost(9999) == -1) {
+        printf("INVALID CARD NUMBER TEST: PASSED\n");
+    }
+    else {
+        printf("INVALID CARD NUMBER TEST: FAILED\n");
+        testPassed = 0;
+    }
+
+
     if (testPassed == 1) {
         printf("\n\ngetCost() TEST PASSED\n\n");
     }
