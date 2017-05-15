@@ -5,6 +5,58 @@
 #include <math.h>
 #include <stdlib.h>
 
+int adventurerPlayed(struct gameState *gState, int handPosition, int curPlayer, int treasureDrawn)
+{
+    int cardDrawn;
+    int temphand[MAX_HAND];
+    int z = 0;
+
+    while(treasureDrawn <= 2) { //added bug by Making <= instead of <
+        if (gState->deckCount[curPlayer] < 1) {
+            shuffle(curPlayer, gState);
+        }
+        drawCard(curPlayer, gState);
+        cardDrawn = gState->hand[curPlayer][gState->handCount[curPlayer]-1];
+        if (cardDrawn == copper || cardDrawn == silver || cardDrawn == gold)
+            treasureDrawn++;
+        else {
+            temphand[z] = cardDrawn;
+            gState->handCount[curPlayer]--;
+            z++;
+        }
+    }
+    while(z-1>=0){
+        gState->discard[curPlayer][gState->discardCount[curPlayer]++]=temphand[z-1];
+        z=z-1;
+    }
+    return 0;
+}
+
+int smithyPlayed(struct gameState *state, int currentPlayer, int handPos) {
+    int i;
+    for (i = 0; i <= 3; i++) //bug introduced here by changing < to <=
+    {
+        drawCard(currentPlayer, state);
+    }
+
+    //discard card from hand
+    discardCard(handPos, currentPlayer, state, 0);
+    return 0;
+    
+}
+
+int villagePlayed(struct gameState *state, int currentPlayer, int handPos) {
+    //+1 Card
+    drawCard(currentPlayer, state);
+
+    //+2 Actions
+    state->numActions = state->numActions + 2;
+
+    //discard played card from hand
+    discardCard(handPos, currentPlayer, state, 0);
+    return 0;
+}    
+
 int compare(const void* a, const void* b) {
   if (*(int*)a > *(int*)b)
     return 1;

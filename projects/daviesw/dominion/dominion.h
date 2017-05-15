@@ -80,6 +80,12 @@ struct gameState {
 
 struct gameState* newGame();
 
+int adventurerPlayed(struct gameState *gState, int handPosition, int curPlayer, int treasureDrawn);
+
+int smithyPlayed(struct gameState *state, int currentPlayer, int handPos);
+
+int villagePlayed(struct gameState *state, int currentPlayer, int handPos);
+
 int* kingdomCards(int k1, int k2, int k3, int k4, int k5, int k6, int k7,
 		  int k8, int k9, int k10);
 
