@@ -108,7 +108,7 @@ int testAdventurer (int thisPlayer, struct gameState testState, int handPos) {
     }
     else {
         printf("DECKCOUNT DECREASE TEST: FAILED\n");
-        printf("EXPECTED: %d Actual: %d\n", (state.deckCount[thisPlayer] - discarded), (testState.deckCount[thisPlayer]));
+        printf("EXPECTED: %d Actual: %d\n", (state.deckCount[thisPlayer] - drawn), (testState.deckCount[thisPlayer]));
 	testPassed = 0;
     }
 
