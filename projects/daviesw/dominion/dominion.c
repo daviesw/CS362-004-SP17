@@ -34,7 +34,7 @@ int adventurerPlayed(struct gameState *gState, int handPosition, int curPlayer, 
 
 int smithyPlayed(struct gameState *state, int currentPlayer, int handPos) {
     int i;
-    for (i = 0; i <= 3; i++) //bug introduced here by changing < to <=
+    for (i = 0; i < 3; i++) //bug introduced here by changing < to <=
     {
         drawCard(currentPlayer, state);
     }
