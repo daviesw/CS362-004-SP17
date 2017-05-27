@@ -14,7 +14,7 @@ int testSmithy () {
     int seed = 1000;
     int numPlayers = 2;
     int thisPlayer = 0;
-    int bonus = 0;
+    //int bonus = 0;
     struct gameState state, testState;
     int king[10] = {smithy, tribute, sea_hag, cutpurse, mine, minion, village, embargo, gardens, adventurer};
     int handPos = 0;
@@ -30,7 +30,8 @@ int testSmithy () {
     memcpy(&testState, &state, sizeof(struct gameState));
     
     printf("\n\nTESTING SMITHY\n\n");
-    cardEffect(smithy, 0, 0, 0, &testState, handPos, &bonus);
+    smithyPlayed(&testState, thisPlayer, handPos);
+    //cardEffect(smithy, 0, 0, 0, &testState, handPos, &bonus);
 
     if (testState.handCount[thisPlayer] == (state.handCount[thisPlayer] + drawn - discarded)) {
         printf("HANDCOUNT INCREASE TEST: PASSED\n");
