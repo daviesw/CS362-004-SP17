@@ -82,7 +82,7 @@ int testGreatHall() {
     }
     else {
         printf("CARD DRAWN IS FORMER TOP FROM PLAYERS DECK AND IN CORRECT POSITION TEST: FAILED\n");
-        testPassed = 1;
+        testPassed = 0;
     }
 
     if (testState.handCount[1] == state.handCount[1]) {

@@ -85,7 +85,7 @@ int testSmithy () {
     }
     else {
         printf("CARDS WERE DRAWN FROM TOP OF PLAYER'S DECK TEST: FAILED\n");
-        testPassed = 1;
+        testPassed = 0;
     }
 
     if (testState.handCount[1] == state.handCount[1]) {
