@@ -1,0 +1,201 @@
+        -:    0:Source:unittest4.c
+        -:    0:Graph:unittest4.gcno
+        -:    0:Data:unittest4.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1:#include "dominion.h"
+        -:    2:#include "dominion_helpers.h"
+        -:    3:#include "rngs.h"
+        -:    4:#include <stdio.h>
+        -:    5:#include <math.h>
+        -:    6:#include <stdlib.h>
+        -:    7:#include <string.h>
+        -:    8:
+        1:    9:int testUpdateCoins() {
+        -:   10:
+        1:   11:    struct gameState *state = malloc(sizeof(struct gameState));
+        1:   12:    int numPlayers = 2;
+        1:   13:    int king[10] = {adventurer, embargo, village, minion, mine, cutpurse, sea_hag, tribute, smithy, council_room};
+        1:   14:    int seed = 1000;
+        1:   15:    int testPassed = 1;
+        -:   16:    int i;
+        -:   17:    int count;
+        1:   18:    int expected = 0;
+        -:   19:    
+        1:   20:    initializeGame(numPlayers, king, seed, state);
+        -:   21:    
+        1:   22:    printf("TEST OF CARD COUNT OF CARD FOUNT IN HAND AND DECK ONLY\n");
+        1:   23:    count = fullDeckCount(0, estate, state);
+        6:   24:    for (i = 0; i < state->handCount[0]; i++) {
+        5:   25:        if (state->hand[0][i] == estate) {
+        1:   26:            expected++;
+        -:   27:        }         
+        -:   28:    }
+        -:   29:    
+        6:   30:    for (i = 0; i < state->deckCount[0]; i++) {
+        5:   31:        if (state->deck[0][i] == estate) {
+        2:   32:            expected++;
+        -:   33:        }
+        -:   34:    }
+        -:   35:
+        1:   36:    state->hand[1][0] = duchy;
+        1:   37:    state->hand[1][1] = duchy;
+        1:   38:    state->hand[1][2] = duchy;
+        1:   39:    state->handCount[1] += 3;
+        -:   40:
+        1:   41:    state->discard[1][0] = estate;
+        1:   42:    state->discard[1][1] = curse;
+        1:   43:    state->discard[1][2] = curse;
+        1:   44:    state->discardCount[1] += 3;
+        -:   45:
+        1:   46:    state->deck[1][0] = sea_hag;
+        1:   47:    state->deck[1][1] = sea_hag;
+        1:   48:    state->deck[1][2] = sea_hag;
+        -:   49:
+        1:   50:    if (expected == count) {
+        1:   51:        printf("TEST OF CARD IN HAND AND DECK PASSED\n");
+        -:   52:    }
+        -:   53:    else {
+    #####:   54:        printf("TEST OF CARD IN HAND AND DECK FAILED\n");
+    #####:   55:        testPassed = 0;
+        -:   56:    }
+        -:   57:
+        1:   58:    printf("TEST FOR CARD FOUND ONLY IN DISCARD PILE\n");
+        -:   59:
+        1:   60:    state->discard[0][0] = curse;
+        1:   61:    state->discard[0][1] = curse;
+        1:   62:    state->discard[0][2] = curse;
+        1:   63:    state->discard[0][3] = curse;
+        1:   64:    state->discard[0][4] = gardens;
+        1:   65:    state->discard[0][5] = great_hall;
+        1:   66:    state->discard[0][6] = estate;
+        1:   67:    state->discard[0][7] = estate;
+        1:   68:    state->discard[0][8] = estate;
+        1:   69:    state->discard[0][9] = estate;
+        1:   70:    state->discardCount[0] += 10;
+        -:   71:
+        1:   72:    count = fullDeckCount(0, curse, state);
+        1:   73:    expected = 4;
+        -:   74:
+        1:   75:    if (expected == count) {
+        1:   76:        printf("TEST OF CARD IN DISCARD PILE PASSED\n");
+        -:   77:    }
+        -:   78:    else {
+    #####:   79:        printf("TEST OF CARD IN DISCARD PILE FAILED\n");
+    #####:   80:        testPassed = 0;
+        -:   81:    }
+        -:   82:
+        1:   83:    printf("TEST FOR CARD FOUND ONLY IN DECK PILE\n");    
+        -:   84:
+        1:   85:    state->deck[0][5] = duchy;
+        1:   86:    state->deckCount[0] += 1;
+        -:   87:
+        1:   88:    count = fullDeckCount(0, duchy, state);
+        1:   89:    expected = 1;
+        -:   90:
+        1:   91:    if (expected == count) {
+        1:   92:        printf("TEST OF CARD IN DECK PASSED\n");
+        -:   93:    }
+        -:   94:    else {
+    #####:   95:        printf("TEST OF CARD IN DECK FAILED\n");
+    #####:   96:        testPassed = 0;
+        -:   97:    }
+        -:   98:
+        1:   99:    printf("TEST FOR CARD FOUND ONLY IN HAND\n");
+        1:  100:    state->hand[0][5] = sea_hag;
+        1:  101:    state->handCount[0]++;
+        -:  102:    
+        1:  103:    count = fullDeckCount(0, sea_hag, state);
+        1:  104:    expected = 1;
+        -:  105:
+        1:  106:    if (expected == count) {
+        1:  107:        printf("TEST OF CARD IN HAND PASSED\n");
+        -:  108:    }
+        -:  109:    else {
+    #####:  110:        printf("TEST OF CARD IN HAND FAILED\n");
+    #####:  111:        testPassed = 0;
+        -:  112:    }
+        -:  113:
+        1:  114:    printf("TEST FOR CARD FOUND IN HAND AND DISCARD ONLY\n");
+        -:  115:
+        1:  116:    state->discard[0][10] = sea_hag;
+        1:  117:    state->discardCount[0] += 1;
+        -:  118:
+        1:  119:    count = fullDeckCount(0, sea_hag, state);
+        1:  120:    expected = 2;
+        -:  121:
+        1:  122:    if (expected == count) {
+        1:  123:        printf("TEST OF CARD IN HAND AND DISCARD PASSED\n");
+        -:  124:    }
+        -:  125:    else {
+    #####:  126:        printf("TEST OF CARD IN HAND AND DISCARD FAILED\n");
+    #####:  127:        testPassed = 0;
+        -:  128:    }
+        -:  129:
+        1:  130:    printf("TEST FOR CARD FOUND IN DECK AND DISCARD ONLY\n");
+        -:  131:
+        1:  132:    state->discard[0][11] = duchy;
+        1:  133:    state->discardCount[0]++;
+        -:  134:
+        1:  135:    count = fullDeckCount(0, duchy, state);
+        1:  136:    expected = 2;
+        -:  137:
+        1:  138:    if (expected == count) {
+        1:  139:        printf("TEST OF CARD IN DECK AND DISCARD PASSED\n");
+        -:  140:    }
+        -:  141:    else {
+    #####:  142:        printf("TEST OF CARD IN DECK AND DISCARD FAILED\n");
+    #####:  143:        testPassed = 0;
+        -:  144:    }
+        -:  145:
+        1:  146:    printf("TEST FOR CARD FOUND IN DECK, DISCARD, AND HAND\n");
+        -:  147:
+        1:  148:    count = fullDeckCount(0, estate, state);
+        1:  149:    expected = 7;
+        -:  150:
+        1:  151:    if (expected == count) {
+        1:  152:        printf("TEST OF CARD IN ALL POSSIBLE PLACES PASSED\n");
+        -:  153:    }
+        -:  154:    else {
+    #####:  155:        printf("TEST OF CARD IN ALL POSSIBLE PLACES FAILED\n");
+    #####:  156:        testPassed = 0;
+        -:  157:    }
+        -:  158:
+        1:  159:    printf("COMPARE TO RESULTS FOR ANOTHER PLAYER TO ENSURE FUNCTION WASN'T RETURNING CORRECT VALUES COINCIDENTALLY\n");
+        -:  160:
+        1:  161:    if ((fullDeckCount(0, estate, state) == fullDeckCount(1, estate, state))) {
+    #####:  162:        printf("TEST FAILED\n");
+    #####:  163:        testPassed = 0;
+        -:  164:    }
+        1:  165:    else if ((fullDeckCount(0, estate, state) == fullDeckCount(1, estate, state))) {
+    #####:  166:        printf("TEST FAILED\n");
+    #####:  167:        testPassed = 0;
+        -:  168:    }
+        1:  169:    else if ((fullDeckCount(0, estate, state) == fullDeckCount(1, estate, state))) {
+    #####:  170:        printf("TEST FAILED\n");
+    #####:  171:        testPassed = 0;
+        -:  172:    }
+        1:  173:    else if ((fullDeckCount(0, estate, state) == fullDeckCount(1, estate, state))) {
+    #####:  174:        printf("TEST FAILED\n");
+    #####:  175:        testPassed = 0;
+        -:  176:    }
+        -:  177:    else {
+        1:  178:        printf("TEST PASSED SUCCESSFULLY\n");
+        -:  179:    }
+        -:  180:
+        -:  181:
+        1:  182:    if (testPassed == 1) {
+        1:  183:        printf("\n\nfullDeckCount() TESTS PASSED\n\n");
+        -:  184:    }
+        -:  185:    else {
+    #####:  186:        printf("\n\nfullDeckCOunt() TESTS FAILED\n\n");
+        -:  187:    }
+        1:  188:    free(state);
+        1:  189:    return 0;
+        -:  190:}
+        -:  191:
+        1:  192:int main()
+        -:  193:{
+        1:  194:    testUpdateCoins();
+        1:  195:    return 0;
+        -:  196:}

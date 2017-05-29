@@ -1,0 +1,106 @@
+        -:    0:Source:unittest3.c
+        -:    0:Graph:unittest3.gcno
+        -:    0:Data:unittest3.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1:#include "dominion.h"
+        -:    2:#include "dominion_helpers.h"
+        -:    3:#include "rngs.h"
+        -:    4:#include <stdio.h>
+        -:    5:#include <math.h>
+        -:    6:#include <stdlib.h>
+        -:    7:#include <string.h>
+        -:    8:
+        1:    9:int testIsGameOver() {
+        -:   10:
+        -:   11:    int i, j, k;
+        1:   12:    struct gameState *testOne = malloc(sizeof(struct gameState));
+        1:   13:    int numPlayers = 2;
+        1:   14:    int king[10] = {adventurer, embargo, village, minion, mine, cutpurse, sea_hag, tribute, smithy, council_room};
+        1:   15:    int seed = 1000;
+        -:   16:    int oldProvince;
+        -:   17:    int oldOne, oldTwo, oldThree;
+        1:   18:    int testPassed = 1;
+        1:   19:    int passCount = 0;
+        1:   20:    printf("\n\nTESTS FOR isGameOver() FUNCTION BEGIN HERE\n\n");
+        -:   21:
+        1:   22:    initializeGame(numPlayers, king, seed, testOne);
+        -:   23:
+        1:   24:    int result = isGameOver(testOne);
+        -:   25:
+        1:   26:    printf("TEST THAT FUNCTION CORRECTLY RETURNS 0 FOR A GAME IN-PROGRESS\n");
+        1:   27:    if (result == 0) {
+        1:   28:        printf("TEST OF IN-PROGRESS GAME PASSED\n");
+        -:   29:    }
+        -:   30:    else {
+    #####:   31:        printf("TEST OF IN-PROGRESS GAME FAILED\n");
+    #####:   32:        testPassed = 0;
+        -:   33:    }
+        -:   34:
+        1:   35:    printf("TEST THAT FUNCTION CORRECTLY RETURNS 1 WHEN PROVINCE PILE EMPTY\n");
+        -:   36:
+        1:   37:    oldProvince = testOne->supplyCount[province];
+        1:   38:    testOne->supplyCount[province] = 0;
+        1:   39:    result = isGameOver(testOne);
+        -:   40:
+        1:   41:    if (result == 1) {
+        1:   42:        printf("TEST OF GAME OVER DUE TO EMPTY PROVINCE PILE PASSED\n");
+        -:   43:    }
+        -:   44:    else {
+    #####:   45:        printf("TEST OF GAME OVER DUE TO EMPTY PROVINCE PILE FAILED\n");
+    #####:   46:        testPassed = 0;
+        -:   47:    }
+        -:   48:    
+        1:   49:    testOne->supplyCount[province] = oldProvince;
+        1:   50:    printf("TEST THAT GAME ENDS WHEN ANY THREE OF SUPPLY PILE ARE EMPTY\n");
+        -:   51:    
+       26:   52:    for(i = 0; i < 25; i++) {
+       25:   53:        oldOne = testOne->supplyCount[i];
+        -:   54:
+      325:   55:        for(j = (i + 1); j < 25; j++) {
+      300:   56:            oldTwo = testOne->supplyCount[j];
+     2600:   57:            for (k = (j + 1); k < 25; k++) {
+     2300:   58:                oldThree = testOne->supplyCount[k];
+        -:   59:
+     2300:   60:                testOne->supplyCount[i] = 0;
+     2300:   61:                testOne->supplyCount[j] = 0;
+     2300:   62:                testOne->supplyCount[k] = 0;
+        -:   63:
+     2300:   64:                result = isGameOver(testOne);
+        -:   65:
+     2300:   66:                if (result == 1) {
+     2300:   67:                    passCount++;
+        -:   68:                }
+        -:   69:                else {
+    #####:   70:                    printf("TEST OF GAME OVER DUE TO THREE EMPTY SUPPLY PILES FAILED FOR COMBINATION %d %d %d\n", i, j, k);
+    #####:   71:                    testPassed = 0;
+        -:   72:                }
+     2300:   73:                testOne->supplyCount[k] = oldThree;
+        -:   74:            }
+      300:   75:            testOne->supplyCount[j] = oldTwo;
+        -:   76:        }
+       25:   77:        testOne->supplyCount[i] = oldOne;
+        -:   78:    }
+        -:   79:
+        1:   80:    printf("TEST OF GAME OVER DUE TO THREE EMPTY SUPPLY PILES PASSED FOR %d combination(s) out of 2300 possible\n", passCount);
+        -:   81:
+        1:   82:    printf("\n\nFINAL RESULT FOR TEST OF isGameOver()\n\n");
+        -:   83:
+        1:   84:    if (testPassed == 1) {
+        1:   85:        printf("isGameOver() TESTS PASSED\n\n");
+        -:   86:    }
+        -:   87:    else {
+    #####:   88:        printf("isGameOver() TESTS FAILED\n\n");
+        -:   89:    }
+        -:   90:
+        1:   91:    free(testOne);
+        -:   92:
+        1:   93:    return 0;
+        -:   94:}
+        -:   95:
+        -:   96:
+        1:   97:int main() {
+        1:   98:    testIsGameOver();
+        -:   99:
+        1:  100:    return 0;
+        -:  101:}

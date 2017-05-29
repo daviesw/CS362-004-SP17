@@ -1,0 +1,248 @@
+        -:    0:Source:unittest2.c
+        -:    0:Graph:unittest2.gcno
+        -:    0:Data:unittest2.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1:#include "dominion.h"
+        -:    2:#include "dominion_helpers.h"
+        -:    3:#include "rngs.h"
+        -:    4:#include <stdio.h>
+        -:    5:#include <math.h>
+        -:    6:#include <stdlib.h>
+        -:    7:#include <string.h>
+        -:    8:
+        1:    9:int testGetCost() {
+        -:   10:
+        1:   11:    printf("\nTEST getCost()\n");
+        1:   12:    int testPassed = 1;
+        1:   13:    if (getCost(curse) == 0) {
+        1:   14:        printf("CURSE TEST PASSED\n");
+        -:   15:    }
+        -:   16:    else {
+    #####:   17:        printf("CURSE TEST FAILED\n");
+    #####:   18:        testPassed = 0;
+        -:   19:    }
+        -:   20:
+        1:   21:    if (getCost(estate) == 2) {
+        1:   22:        printf("ESTATE TEST PASSED\n");
+        -:   23:    }
+        -:   24:    else {
+    #####:   25:        printf("ESTATE TEST FAILED\n");
+    #####:   26:        testPassed = 0;
+        -:   27:    }
+        -:   28:
+        1:   29:    if (getCost(duchy) == 5) {
+        1:   30:        printf("DUCHY TEST PASSED\n");
+        -:   31:    }
+        -:   32:    else {
+    #####:   33:        printf("DUCHY TEST FAILED\n");
+    #####:   34:        testPassed = 0;
+        -:   35:    }
+        -:   36:
+        1:   37:    if (getCost(province) == 8) {
+        1:   38:        printf("PROVINCE TEST PASSED\n");
+        -:   39:    }
+        -:   40:    else {
+    #####:   41:        printf("PROVINCE TEST FAILED\n");
+    #####:   42:        testPassed = 0;
+        -:   43:    }
+        -:   44:
+        1:   45:    if (getCost(copper) == 0) {
+        1:   46:        printf("COPPER TEST PASSED\n");
+        -:   47:    }
+        -:   48:    else {
+    #####:   49:        printf("COPPER TEST FAILED\n");
+    #####:   50:        testPassed = 0;
+        -:   51:    }
+        -:   52:
+        1:   53:    if (getCost(silver) == 3) {
+        1:   54:        printf("SILVER TEST PASSED\n");
+        -:   55:    }
+        -:   56:    else {
+    #####:   57:        printf("SILVER TEST FAILED\n");
+    #####:   58:        testPassed = 0;
+        -:   59:    }
+        -:   60:
+        1:   61:    if (getCost(gold) == 6) {
+        1:   62:        printf("GOLD TEST PASSED\n");
+        -:   63:    }
+        -:   64:    else {
+    #####:   65:        printf("GOLD TEST FAILED\n");
+    #####:   66:        testPassed = 0;
+        -:   67:    }
+        -:   68:
+        1:   69:    if (getCost(adventurer) == 6) {
+        1:   70:        printf("ADVENTURER TEST PASSED\n");
+        -:   71:    }
+        -:   72:    else {
+    #####:   73:        printf("ADVENTURER TEST FAILED\n");
+    #####:   74:        testPassed = 0;
+        -:   75:    }
+        -:   76:
+        1:   77:    if (getCost(council_room) == 5) {
+        1:   78:        printf("COUNCIL_ROOM TEST PASSED\n");
+        -:   79:    }
+        -:   80:    else {
+    #####:   81:        printf("COUNCIL_ROOM FAILED\n");
+    #####:   82:        testPassed = 0;
+        -:   83:    }
+        -:   84:
+        1:   85:    if (getCost(feast) == 4) {
+        1:   86:        printf("FEAST TEST PASSED\n");
+        -:   87:    }
+        -:   88:    else {
+    #####:   89:        printf("FEAST TEST FAILED\n");
+    #####:   90:        testPassed = 0;
+        -:   91:    }
+        -:   92:
+        1:   93:    if (getCost(gardens) == 4) {
+        1:   94:        printf("GARDENS TEST PASSED\n");
+        -:   95:    }
+        -:   96:    else {
+    #####:   97:        printf("GARDENS TEST FAILED\n");
+    #####:   98:        testPassed = 0;
+        -:   99:    }
+        -:  100:
+        1:  101:    if (getCost(mine) == 5) {
+        1:  102:        printf("MINE TEST PASSED\n");
+        -:  103:    }
+        -:  104:    else {
+    #####:  105:        printf("MINE TEST FAILED\n");
+    #####:  106:        testPassed = 0;
+        -:  107:    }
+        -:  108:
+        1:  109:    if (getCost(remodel) == 4) {
+        1:  110:        printf("REMODEL TEST PASSED\n");
+        -:  111:    }
+        -:  112:    else {
+    #####:  113:        printf("REMODEL TEST FAILED\n");
+    #####:  114:        testPassed = 0;
+        -:  115:    }
+        -:  116:
+        1:  117:    if (getCost(smithy) == 4) {
+        1:  118:        printf("SMITHY TEST PASSED\n");
+        -:  119:    }
+        -:  120:    else {
+    #####:  121:        printf("SMITHY TEST FAILED\n");
+    #####:  122:        testPassed = 0;
+        -:  123:    }
+        -:  124:
+        1:  125:    if (getCost(village) == 3) {
+        1:  126:        printf("VILLAGE TEST PASSED\n");
+        -:  127:    }
+        -:  128:    else {
+    #####:  129:        printf("VILLAGE TEST FAILED\n");
+    #####:  130:        testPassed = 0;
+        -:  131:    }
+        -:  132:
+        1:  133:    if (getCost(baron) == 4) {
+        1:  134:        printf("BARON TEST PASSED\n");
+        -:  135:    }
+        -:  136:    else {
+    #####:  137:        printf("BARON TEST FAILED\n");
+    #####:  138:        testPassed = 0;
+        -:  139:    }
+        -:  140:
+        1:  141:    if (getCost(great_hall) == 3) {
+        1:  142:        printf("GREAT_HALL TEST PASSED\n");
+        -:  143:    }
+        -:  144:    else {
+    #####:  145:        printf("GREAT_HALL TEST FAILED\n");
+    #####:  146:        testPassed = 0;
+        -:  147:    }
+        -:  148:
+        1:  149:    if (getCost(minion) == 5) {
+        1:  150:        printf("MINION TEST PASSED\n");
+        -:  151:    }
+        -:  152:    else {
+    #####:  153:        printf("MINION TEST FAILED\n");
+    #####:  154:        testPassed = 0;
+        -:  155:    }
+        -:  156:
+        1:  157:    if (getCost(steward) == 3) {
+        1:  158:        printf("STEWARD TEST PASSED\n");
+        -:  159:    }
+        -:  160:    else {
+    #####:  161:        printf("STEWARD TEST FAILED\n");
+    #####:  162:        testPassed = 0;
+        -:  163:    }
+        -:  164:
+        1:  165:    if (getCost(tribute) == 5) {
+        1:  166:        printf("TRIBUTE TEST PASSED\n");
+        -:  167:    }
+        -:  168:    else {
+    #####:  169:        printf("TRIBUTE TEST FAILED\n");
+    #####:  170:        testPassed = 0;
+        -:  171:    }
+        -:  172:
+        1:  173:    if (getCost(ambassador) == 3) {
+        1:  174:        printf("AMBASSADOR TEST PASSED\n");
+        -:  175:    }
+        -:  176:    else {
+    #####:  177:        printf("AMBASSADOR TEST FAILED\n");
+    #####:  178:        testPassed = 0;
+        -:  179:    }
+        -:  180:
+        1:  181:    if (getCost(cutpurse) == 4) {
+        1:  182:        printf("CUTPURSE TEST PASSED\n");
+        -:  183:    }
+        -:  184:    else {
+    #####:  185:        printf("CUTPURSE TEST FAILED\n");
+    #####:  186:        testPassed = 0;
+        -:  187:    }
+        -:  188:
+        1:  189:    if (getCost(embargo) == 2) {
+        1:  190:        printf("EMBARGO TEST PASSED\n");
+        -:  191:    }
+        -:  192:    else {
+    #####:  193:        printf("EMBARGO TEST FAILED\n");
+    #####:  194:        testPassed = 0;
+        -:  195:    }
+        -:  196:
+        1:  197:    if (getCost(outpost) == 5) {
+        1:  198:        printf("OUTPOST TEST PASSED\n");
+        -:  199:    }
+        -:  200:    else {
+    #####:  201:        printf("OUTPOST TEST FAILED\n");
+    #####:  202:        testPassed = 0;
+        -:  203:    }
+        -:  204:
+        1:  205:    if (getCost(salvager) == 4) {
+        1:  206:        printf("SALVAGER TEST PASSED\n");
+        -:  207:    }
+        -:  208:    else {
+    #####:  209:        printf("SALVAGER TEST FAILED\n");
+    #####:  210:        testPassed = 0;
+        -:  211:    }
+        -:  212:
+        1:  213:    if (getCost(sea_hag) == 4) {
+        1:  214:        printf("SEA_HAG TEST PASSED\n");
+        -:  215:    }
+        -:  216:    else {
+    #####:  217:        printf("SEA_HAG TEST FAILED\n");
+    #####:  218:        testPassed = 0;
+        -:  219:    }
+        -:  220:
+        1:  221:    if (getCost(treasure_map) == 4) {
+        1:  222:        printf("TREASURE_MAP TEST PASSED\n");
+        -:  223:    }
+        -:  224:    else {
+    #####:  225:        printf("TREASURE_MAP TEST FAILED\n");
+    #####:  226:        testPassed = 0;
+        -:  227:    }
+        -:  228:
+        1:  229:    if (testPassed == 1) {
+        1:  230:        printf("\n\ngetCost() TEST PASSED\n\n");
+        -:  231:    }
+        -:  232:    else {
+    #####:  233:        printf("\n\ngetCost() TEST FAILED\n\n");
+        -:  234:    }
+        -:  235:
+        1:  236:    return 0;
+        -:  237:}
+        -:  238:
+        1:  239:int main() {
+        1:  240:    testGetCost();
+        -:  241:
+        1:  242:    return 0;
+        -:  243:}

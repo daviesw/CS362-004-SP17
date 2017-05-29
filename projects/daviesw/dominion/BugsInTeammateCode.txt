@@ -1,0 +1,59 @@
+Report 1:
+	Title: Smithy draws only one card
+	How I Found Them and Steps to Recreate:
+		I created the bug merely by running both my unit test and my random tests for smithy. My unit test initializes a game, sets the values of a 
+player’s hand and deck to a certain values, runs the function, and then tests to see if the player’s hand and deck have changed appropriately while 
+everything else remained the same. The random test differed only insofar as starting values were determined randomly, then the expected results were found,
+then the function was run, and then results were compared to what was expected. The unit test merely told me that decksize wasn’t decreased appropriately, 
+and handSize didn’t increase appropriately. My random tests revealed more. I saw that handCount was always two lower than it should be. Additionally, I saw 
+that deckCount was always higher than it should be. Already, this would seem to indicate that two of the cards that should be drawn from the deck weren’t. 
+Further evidence came from the fact that the place in the player’s hand formerly occupied by Smithy wasn’t occupied by the correct card. It should contain 
+the most recently drawn card, which would be the card that was third from the top of the deck before Smithy was played. Instead, it contains a different one.
+There is further evidence that the card in that position is the first card that should have been drawn. This evidence takes the form of the test that 
+determines whether the hand contains the three cards it should have drawn and that those cards are in the right place. That tests shows that the card found 
+in the position held by smithy is the only one of the expected cards actually in the hand, and it’s in the position the third card should be in. The test 
+also shows that the card should be in the position of the first card drawn. All the aforementioned test results strongly indicate that only one of the 
+expected three cards has been drawn. To recreate this in the context of using the program one could:
+
+1.	Start a game
+2.	Play such that a player gets a Smithy
+3.	Use Smithy
+
+Result: Player has only drawn one additional card instead of three.
+
+Cause: My teammate’s smithy function, smithy_fct(), uses the drawCard function one time. It should use that function three times in a row before discarding 
+smithy.  See line 675 in her dominion.c file.
+
+Effect: The player has only drawn one card when smithy should have them draw three, so now their hand doesn’t have two cards it should because they weren’t 
+drawn. Similarly their deck has two cards it shouldn’t have because they weren’t drawn. 
+
+Priority and Severity: High in both cases. Although a game can still be played, there is a significant difference between what smithy is supposed to do and 
+what this function does. This bug severely limits the value of playing an otherwise important card. This could ruin the game playing experience for a player 
+and is thus high priority and highly severe.  It would be even more so only if it made the game crash or made further incorrect changes to the gameState 
+struct.
+Report 2: 
+	Title: Village sets the gameState’s numActions variable to 2
+	
+	How I found the bug: I began by running my unit test. This told me that every test except one passed. The test that did not pass was the one that 
+determined whether the value of numActions in the gameState struct increased as it should (i.e. increased by 2). My random test revealed more because it 
+shows the expected value next to the actual value when it tests how the value of numActions changed. In every case the actual value of numActions was 2, 
+instead of whatever it was rightly expected to be. Given that the random tests were run 200 times, this pretty much guaranteed that some bug within 
+village_fct(the function in which my teammate implemented village) was setting numActions to 2 instead of increasing it by 2. My unit test found this bug by 
+initializing a game, setting the values of certain parts of a player’s deck and hand to certain values, running village_fct, and then seeing if the values of
+numActions, and those within his or her hand and deck were changed whereas nothing else in the gameState struct was. My random test was similar, except the
+values within the gameState struct were initialized to random values rather than predetermined ones.
+	Steps to recreate in program: 
+1.	Start a game
+2.	Play such that one player gets a village card
+3.	Have that player use village during his or her turn
+
+	Result: The value of the gameState struct’s numActions value will be 2
+	
+	Cause: In the village_fct function, at the place where it should be increasing the value of the gameState struct’s numActions value by 2 (line 688 of dominion.c), the value of numActions is set to 2.
+	
+	Effect: The value of numActions is 2 regardless of what it was before village is played. This is opposed to the proper effect: increasing the value of numActions by 2.
+	
+	Priority: High. This bug won’t make the game crash and it could be avoided entirely (if a player never uses village or uses it when increasing numActions by 2 would put it at 2 anyways) but the bug nevertheless leads to a remarkably different outcome under many situations that could be critical to a player’s strategy. Therefore, it could ruin a player’s game and thus severely harm the user experience.
+	
+	Severity: High. Again, the bug won’t make the game crash and won’t always be noticeable when village is used, but it does preclude using village to its full potential. This could ruin many players’ strategies, and is therefore very severe.
+

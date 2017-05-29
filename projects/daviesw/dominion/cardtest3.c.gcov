@@ -1,0 +1,199 @@
+        -:    0:Source:cardtest3.c
+        -:    0:Graph:cardtest3.gcno
+        -:    0:Data:cardtest3.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1:#include "dominion.h"
+        -:    2:#include "dominion_helpers.h"
+        -:    3:#include "rngs.h"
+        -:    4:#include <stdio.h>
+        -:    5:#include <math.h>
+        -:    6:#include <stdlib.h>
+        -:    7:#include <string.h>
+        -:    8:
+        1:    9:int testGreatHall() {
+        -:   10:
+        -:   11:    int i;
+        1:   12:    int drawn = 1;
+        1:   13:    int discarded = 1;
+        1:   14:    int seed = 1000;
+        1:   15:    int numPlayers = 2;
+        1:   16:    int thisPlayer = 0;
+        1:   17:    int bonus = 0;
+        -:   18:    struct gameState state, testState;
+        1:   19:    int king[10] = {smithy, tribute, sea_hag, cutpurse, mine, minion, village, embargo, gardens, adventurer};
+        1:   20:    int handPos = 0;
+        -:   21:    //int curCount = testState.handCount[thisPlayer];
+        -:   22:    //int curCard;    
+        -:   23:    
+        1:   24:    int testPassed = 1;
+        1:   25:    initializeGame(numPlayers, king, seed, &state);
+        -:   26:    
+        1:   27:    int deckCounter = state.deckCount[thisPlayer];
+        1:   28:    int expectedCards[1] = {state.deck[thisPlayer][(deckCounter - 1)]};
+        -:   29:    
+        1:   30:    memcpy(&testState, &state, sizeof(struct gameState));
+        -:   31:    
+        1:   32:    printf("\n\nTESTING GREAT_HALL\n\n");
+        1:   33:    cardEffect(great_hall, 0, 0, 0, &testState, handPos, &bonus);
+        -:   34:
+        1:   35:    if (testState.handCount[thisPlayer] == (state.handCount[thisPlayer] + drawn - discarded)) {
+        1:   36:        printf("HANDCOUNT INCREASE TEST: PASSED\n");
+        -:   37:    }
+        -:   38:    else {
+    #####:   39:        printf("HANDCOUNT INCREASE TEST: FAILED\n");
+    #####:   40:        testPassed = 0;
+        -:   41:    }
+        -:   42:
+        1:   43:    if (testState.deckCount[thisPlayer] == (state.deckCount[thisPlayer] - drawn)) {
+        1:   44:        printf("DECKCOUNT DECREASE TEST: PASSED\n");
+        -:   45:    }
+        -:   46:    else {
+    #####:   47:        printf("DECKCOUNT DECREASE TEST: FAILED\n");
+    #####:   48:        testPassed = 0;
+        -:   49:    }
+        -:   50:
+        1:   51:    if ((testState.playedCards[(testState.playedCardCount - 1)] == state.hand[thisPlayer][handPos])
+        1:   52:    && (testState.playedCardCount == state.playedCardCount + 1)) {
+        1:   53:        printf("PLAYEDCARD HAS PLAYED CARD TEST: PASSED\n");
+        1:   54:        printf("PLAYEDCARDCOUNT INCREASE TEST: PASSED\n");
+        -:   55:    }
+        -:   56:    else {
+    #####:   57:        printf("PLAYEDCARD HAS PLAYED CARD TEST: FAILED\n");
+    #####:   58:        printf("PLAYEDCARDCOUNT INCREASE TEST: FAILED\n");
+    #####:   59:        testPassed = 0;
+        -:   60:    }
+        -:   61:
+        1:   62:    if ((testState.hand[thisPlayer][handPos] == expectedCards[0])) {
+        -:   63:
+        1:   64:        printf("PLAYED CARD'S POSITION OCCUPIED BY NEW CARD TEST: PASSED\n");
+        -:   65:    }    
+        -:   66:    else {
+    #####:   67:        printf("PLAYED CARD'S POSITION OCCUPIED BY NEW CARD TEST: FAILED\n");
+    #####:   68:        testPassed = 0;
+        -:   69:    }
+        -:   70:
+        1:   71:    if (testState.hand[thisPlayer][(testState.handCount[thisPlayer])] == -1) {
+        1:   72:        printf("POSITION FORMERLY OCCUPIED NOW VALUED AT -1 TEST: PASSED\n");
+        -:   73:    }
+        -:   74:    else {
+    #####:   75:        printf("POSITION FORMERLY OCCUPIED NOW VALUED AT -1 TEST: FAILED\n");
+    #####:   76:        testPassed = 0;
+        -:   77:    }
+        -:   78:
+        1:   79:    if ((testState.hand[thisPlayer][handPos] == expectedCards[0])) {
+        1:   80:        printf("CARD DRAWN IS FORMER TOP FROM PLAYERS DECK AND IN CORRECT POSITION TEST: PASSED\n");
+        -:   81:
+        -:   82:    }
+        -:   83:    else {
+    #####:   84:        printf("CARD DRAWN IS FORMER TOP FROM PLAYERS DECK AND IN CORRECT POSITION TEST: FAILED\n");
+    #####:   85:        testPassed = 1;
+        -:   86:    }
+        -:   87:
+        1:   88:    if (testState.handCount[1] == state.handCount[1]) {
+        1:   89:        printf("HANDCOUNT OF OTHER PLAYER DIDN'T CHANGE TEST: PASSED\n");
+        -:   90:    }
+        -:   91:    else {
+    #####:   92:        printf("HANDCOUNT OF OTHER PLAYER DIDN'T CHANGE TEST: FAILED\n");
+    #####:   93:        printf("ENDING TEST TO AVOID CRASH\n");
+    #####:   94:        return 0;
+        -:   95:    }
+        -:   96:
+        1:   97:    if (testState.deckCount[1] == state.deckCount[1]) {
+        1:   98:        printf("DECKCOUNT OF OTHER PLAYER DIDN'T CHANGE TEST: PASSED\n");
+        -:   99:    }
+        -:  100:    else {
+    #####:  101:        printf("DECKCOUNT OF OTHER PLAYER DIDN'T CHANGE TEST: FAILED\n");
+    #####:  102:        printf("ENDING TEST TO AVOID CRASH\n");
+    #####:  103:        return 0;
+        -:  104:    }
+        -:  105:
+        1:  106:    if (testState.discardCount[1] == state.discardCount[1]) {
+        1:  107:        printf("DISCARDCOUNT OF OTHER PLAYER DIDN'T CHANGE TEST: PASSED\n");
+        -:  108:    }
+        -:  109:    else {
+    #####:  110:        printf("DISCARDCOUNT OF OTHER PLAYER DIDN'T CHANGE TEST: FAILED\n");
+    #####:  111:        printf("ENDING TEST TO AVOID CRASH\n");
+    #####:  112:        return 0;
+        -:  113:    }
+        -:  114:    
+        1:  115:    int changeTestPass = 1;
+        -:  116:
+        1:  117:    for (i = 0; i < testState.handCount[1]; i++) {
+    #####:  118:        if (testState.hand[1][i] != state.hand[1][i]) {
+    #####:  119:            printf("OTHER PLAYER'S HAND NOT AFFECTED TEST: FAILED\n");
+    #####:  120:            testPassed = 0;
+    #####:  121:            changeTestPass = 0;
+        -:  122:        }
+        -:  123:    }
+        -:  124:
+        1:  125:    if (changeTestPass == 1) {
+        1:  126:        printf("OTHER PLAYER'S HAND NOT AFFECTED TEST: PASSED\n");
+        -:  127:    }
+        1:  128:    changeTestPass = 1;
+        -:  129:
+       11:  130:    for (i = 0; i < testState.deckCount[1]; i++) {
+       10:  131:        if (testState.deck[1][i] != state.deck[1][i]) {
+    #####:  132:            printf("OTHER PLAYER'S DECK NOT AFFECTED TEST: FAILED\n");
+    #####:  133:            testPassed = 0;
+    #####:  134:            changeTestPass = 0;
+        -:  135:        }
+        -:  136:    }
+        -:  137:
+        1:  138:    if (changeTestPass == 1) {
+        1:  139:        printf("OTHER PLAYER'S DECK NOT AFFECTED TEST: PASSED\n");
+        -:  140:    }
+        1:  141:    changeTestPass = 1;
+        -:  142:
+        -:  143:
+        1:  144:    for (i = 0; i < testState.discardCount[1]; i++) {
+    #####:  145:        if (testState.discard[1][i] != state.discard[1][i]) {
+    #####:  146:            printf("OTHER PLAYER'S DISCARD PILE NOT AFFECTED TEST: FAILED\n");
+    #####:  147:            testPassed = 0;
+    #####:  148:            changeTestPass = 0;
+        -:  149:        }
+        -:  150:    }
+        -:  151:
+        1:  152:    if (changeTestPass == 1) {
+        1:  153:        printf("OTHER PLAYER'S DISCARD PILE NOT AFFECTED TEST: PASSED\n");
+        -:  154:    }
+        1:  155:    changeTestPass = 1;
+        -:  156:
+       21:  157:    for (i = adventurer; i <= treasure_map; i++) {
+       20:  158:        if (testState.supplyCount[i] != state.supplyCount[i]) {
+    #####:  159:            printf("VICTORY AND KINGDOM CARDS NOT AFFECTED TEST: FAILED\n");
+    #####:  160:            changeTestPass = 0;
+    #####:  161:            testPassed = 0;
+        -:  162:        }
+        -:  163:    }
+        -:  164:
+        1:  165:    if (changeTestPass == 1) {
+        1:  166:        printf("VICTORY AND KINGDOM CARDS NOT AFFECTED TEST: PASSED\n");
+        -:  167:    }
+        -:  168:
+        1:  169:    if(testState.numActions == (state.numActions + 1)) {
+        1:  170:        printf("NUMBER OF ACTIONS INCREASED BY ONE TEST: PASSED\n");
+        -:  171:    }
+        -:  172:    else {
+    #####:  173:        printf("NUMBER OF ACTIONS INCREASED BY ONE TEST: FAILED\n");
+    #####:  174:        testPassed = 0;
+        -:  175:    }
+        -:  176:
+        1:  177:    return testPassed;
+        -:  178:}
+        -:  179:
+        -:  180:
+        -:  181:
+        -:  182:
+        1:  183:int main() 
+        -:  184:{
+        1:  185:    int result = testGreatHall();
+        1:  186:    if (result == 1) {
+        1:  187:        printf("\nGREAT_HALL TESTS PASSED\n\n");
+        -:  188:    }
+        -:  189:    else {
+    #####:  190:        printf("\nGREAT_HALL TEST(S) FAILED\n\n");
+        -:  191:    }
+        -:  192:
+        1:  193:    return 0;
+        -:  194:}
